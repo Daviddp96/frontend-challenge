@@ -29,25 +29,28 @@ const ProductFilters = ({
   onClearFilters
 }: ProductFiltersProps) => {
   return (
-    <div className="product-filters">
+    <section className="product-filters" role="region" aria-labelledby="filters-title">
       <div className="filters-card">
         {/* Search Bar */}
         <div className="search-section">
-          <div className="search-box">
-            <span className="material-icons">search</span>
+          <div className="search-box" role="search">
+            <span className="material-icons" aria-hidden="true">search</span>
             <input
               type="text"
               placeholder="Buscar productos, SKU..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               className="search-input p1"
+              aria-label="Buscar productos por nombre o SKU"
             />
             {searchQuery && (
               <button 
                 className="clear-search"
                 onClick={() => onSearchChange('')}
+                aria-label="Limpiar búsqueda"
+                type="button"
               >
-                <span className="material-icons">close</span>
+                <span className="material-icons" aria-hidden="true">close</span>
               </button>
             )}
           </div>
@@ -55,15 +58,17 @@ const ProductFilters = ({
 
         {/* Category Filters */}
         <div className="filter-section">
-          <h3 className="filter-title p1-medium">Categorías</h3>
-          <div className="category-filters">
+          <h3 className="filter-title p1-medium" id="filters-title">Categorías</h3>
+          <div className="category-filters" role="group" aria-labelledby="filters-title">
             {categories.map(category => (
               <button
                 key={category.id}
                 className={`category-btn ${selectedCategory === category.id ? 'active' : ''}`}
                 onClick={() => onCategoryChange(category.id)}
+                aria-pressed={selectedCategory === category.id}
+                aria-label={`Filtrar por ${category.name}, ${category.count} productos`}
               >
-                <span className="material-icons">{category.icon}</span>
+                <span className="material-icons" aria-hidden="true">{category.icon}</span>
                 <span className="category-name l1">{category.name}</span>
                 <span className="category-count l1">({category.count})</span>
               </button>
@@ -73,11 +78,13 @@ const ProductFilters = ({
 
         {/* Sort Options */}
         <div className="filter-section">
-          <h3 className="filter-title p1-medium">Ordenar por</h3>
+          <label htmlFor="sort-select" className="filter-title p1-medium">Ordenar por</label>
           <select 
+            id="sort-select"
             value={sortBy} 
             onChange={(e) => onSortChange(e.target.value)}
             className="sort-select p1"
+            aria-label="Ordenar productos por"
           >
             <option value="name">Nombre A-Z</option>
             <option value="price">Precio</option>
@@ -87,11 +94,13 @@ const ProductFilters = ({
 
         {/* Supplier Filter */}
         <div className="filter-section">
-          <h3 className="filter-title p1-medium">Proveedores</h3>
+          <label htmlFor="supplier-select" className="filter-title p1-medium">Proveedores</label>
           <select 
+            id="supplier-select"
             value={selectedSupplier} 
             onChange={(e) => onSupplierChange(e.target.value)}
             className="supplier-select p1"
+            aria-label="Filtrar por proveedor"
           >
             <option value="">Todos los proveedores</option>
             {suppliers.map(supplier => (
@@ -104,31 +113,37 @@ const ProductFilters = ({
 
         {/* Price Range Filter */}
         <div className="filter-section">
-          <h3 className="filter-title p1-medium">Rango de precios (CLP)</h3>
-          <div className="price-range">
-            <div className="price-input-group">
-              <label className="l1">Desde:</label>
-              <input
-                type="number"
-                value={priceRange.min}
-                onChange={(e) => onPriceRangeChange({ ...priceRange, min: parseInt(e.target.value) || 0 })}
-                className="price-input p1"
-                min="0"
-                placeholder="0"
-              />
+          <fieldset className="price-range-fieldset">
+            <legend className="filter-title p1-medium">Rango de precios (CLP)</legend>
+            <div className="price-range" role="group" aria-labelledby="price-range-legend">
+              <div className="price-input-group">
+                <label htmlFor="min-price" className="l1">Desde:</label>
+                <input
+                  id="min-price"
+                  type="number"
+                  value={priceRange.min}
+                  onChange={(e) => onPriceRangeChange({ ...priceRange, min: parseInt(e.target.value) || 0 })}
+                  className="price-input p1"
+                  min="0"
+                  placeholder="0"
+                  aria-label="Precio mínimo"
+                />
+              </div>
+              <div className="price-input-group">
+                <label htmlFor="max-price" className="l1">Hasta:</label>
+                <input
+                  id="max-price"
+                  type="number"
+                  value={priceRange.max}
+                  onChange={(e) => onPriceRangeChange({ ...priceRange, max: parseInt(e.target.value) || 999999 })}
+                  className="price-input p1"
+                  min="0"
+                  placeholder="999999"
+                  aria-label="Precio máximo"
+                />
+              </div>
             </div>
-            <div className="price-input-group">
-              <label className="l1">Hasta:</label>
-              <input
-                type="number"
-                value={priceRange.max}
-                onChange={(e) => onPriceRangeChange({ ...priceRange, max: parseInt(e.target.value) || 999999 })}
-                className="price-input p1"
-                min="0"
-                placeholder="999999"
-              />
-            </div>
-          </div>
+          </fieldset>
         </div>
 
         {/* Clear Filters */}
@@ -136,13 +151,14 @@ const ProductFilters = ({
           <button 
             className="btn btn-secondary clear-filters-btn cta1"
             onClick={onClearFilters}
+            aria-label="Limpiar todos los filtros aplicados"
           >
-            <span className="material-icons">clear_all</span>
+            <span className="material-icons" aria-hidden="true">clear_all</span>
             Limpiar filtros
           </button>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

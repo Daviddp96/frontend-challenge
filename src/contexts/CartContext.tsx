@@ -154,6 +154,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState)
+  const [isLoaded, setIsLoaded] = React.useState(false)
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -166,12 +167,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.error('Error loading cart from localStorage:', error)
       }
     }
+    setIsLoaded(true)
   }, [])
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to localStorage whenever it changes (but only after initial load)
   useEffect(() => {
-    localStorage.setItem('swag-cart', JSON.stringify(state.items))
-  }, [state.items])
+    if (isLoaded) {
+      localStorage.setItem('swag-cart', JSON.stringify(state.items))
+    }
+  }, [state.items, isLoaded])
 
   const addToCart = (product: Product, quantity: number, selectedColor?: string, selectedSize?: string) => {
     dispatch({ 

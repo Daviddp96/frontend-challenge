@@ -50,13 +50,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }
 
   return (
-    <div className="product-card">
-      <Link to={`/product/${product.id}`} className="product-link">
+    <article 
+      className="product-card"
+      role="article"
+      aria-labelledby={`product-name-${product.id}`}
+    >
+      <Link 
+        to={`/product/${product.id}`} 
+        className="product-link"
+        aria-label={`Ver detalles de ${product.name}`}
+      >
         {/* Product Image */}
-        <div className="product-image">
-          {/* Bug: no real image handling */}
+        <div className="product-image" role="img" aria-label={`Imagen de ${product.name}`}>
           <div className="image-placeholder">
-            <span className="material-icons">image</span>
+            <span className="material-icons" aria-hidden="true">image</span>
           </div>
           
           {/* Status Badge */}
@@ -68,17 +75,23 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Product Info */}
         <div className="product-info">
           <div className="product-header">
-            <h3 className="product-name p1-medium">{product.name}</h3>
-            <p className="product-sku l1">{product.sku}</p>
+            <h3 className="product-name p1-medium" id={`product-name-${product.id}`}>
+              {product.name}
+            </h3>
+            <p className="product-sku l1" aria-label={`SKU: ${product.sku}`}>
+              {product.sku}
+            </p>
           </div>
 
           <div className="product-details">
-            <div className="product-category">
-              <span className="material-icons">category</span>
+            <div className="product-category" aria-label={`Categoría: ${product.category}`}>
+              <span className="material-icons" aria-hidden="true">category</span>
               <span className="l1">{product.category}</span>
             </div>
             
-            {getStockStatus(product.stock)}
+            <div role="status" aria-live="polite">
+              {getStockStatus(product.stock)}
+            </div>
           </div>
 
           {/* Features - Bug: displays all features without limit */}
@@ -119,7 +132,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
         </div>
 
-        <div className="card-actions">
+        <div className="card-actions" role="group" aria-label="Acciones del producto">
           <button 
             className="btn btn-secondary l1"
             onClick={(e) => {
@@ -130,8 +143,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 message: 'La función de cotización estará disponible próximamente'
               })
             }}
+            aria-label={`Solicitar cotización para ${product.name}`}
           >
-            <span className="material-icons">calculate</span>
+            <span className="material-icons" aria-hidden="true">calculate</span>
             Cotizar
           </button>
           <button 
@@ -154,13 +168,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
               }
             }}
             disabled={product.status !== 'active' || product.stock === 0}
+            aria-label={`Agregar ${product.name} al carrito`}
           >
-            <span className="material-icons">add_shopping_cart</span>
+            <span className="material-icons" aria-hidden="true">add_shopping_cart</span>
             Agregar
           </button>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
