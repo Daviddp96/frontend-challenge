@@ -40,14 +40,14 @@ Eres el desarrollador frontend de **SWAG Chile** y necesitas completar un catál
 
 Encuentra y corrige estos 8 bugs críticos:
 
-1. **Bug de Búsqueda:** La búsqueda es case-sensitive y no encuentra productos
-2. **Bug de Ordenamiento:** Falta implementar ordenamiento por precio
-3. **Bug de Estado:** Productos "pending" se muestran como "disponibles"
-4. **Bug de Stock:** Un producto aparece sin stock cuando debería tener 150 unidades
-5. **Bug de Datos:** Faltan 14 productos para llegar al total prometido de 20
-6. **Bug de Cálculo:** La calculadora de precios no encuentra el mejor descuento por volumen
-7. **Bug de Formato:** Los precios no muestran formato chileno (CLP)
-8. **Bug de Validación:** No hay validación de cantidad máxima en inputs
+1. **Bug de Búsqueda:** La búsqueda es case-sensitive y no encuentra productos - Listo
+2. **Bug de Ordenamiento:** Falta implementar ordenamiento por precio - Listo
+3. **Bug de Estado:** Productos "pending" se muestran como "disponibles" - Listo
+4. **Bug de Stock:** Un producto aparece sin stock cuando debería tener 150 unidades - Listo
+5. **Bug de Datos:** Faltan 14 productos para llegar al total prometido de 20 - Listo
+6. **Bug de Cálculo:** La calculadora de precios no encuentra el mejor descuento por volumen - Listo
+7. **Bug de Formato:** Los precios no muestran formato chileno (CLP) - Listo
+8. **Bug de Validación:** No hay validación de cantidad máxima en inputs - Listo
 
 #### **🛠️ PARTE 2: Implementación de Funcionalidades (40 puntos)**
 

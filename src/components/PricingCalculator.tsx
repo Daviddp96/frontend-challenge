@@ -16,11 +16,12 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
       return product.basePrice * qty
     }
 
-    // Find applicable price break
+
     let applicableBreak = product.priceBreaks[0]
-    for (let i = 0; i < product.priceBreaks.length; i++) {
+    for (let i = product.priceBreaks.length - 1; i >= 0; i--) {
       if (qty >= product.priceBreaks[i].minQty) {
         applicableBreak = product.priceBreaks[i]
+        break
       }
     }
 
@@ -42,7 +43,7 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
 
   // Format price display
   const formatPrice = (price: number) => {
-    return `$${price.toLocaleString()}` // Should be CLP formatting
+    return `$${price.toLocaleString('es-CL')} CLP`
   }
 
   const currentPrice = calculatePrice(quantity)
@@ -65,12 +66,19 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
             <input
               type="number"
               value={quantity}
-              onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+              onChange={(e) => {
+                const value = parseInt(e.target.value) || 1
+                const maxQuantity = Math.min(product.stock, 10000)
+                setQuantity(Math.max(1, Math.min(value, maxQuantity)))
+              }}
               className="quantity-input p1"
               min="1"
-              max="10000"
+              max={Math.min(product.stock, 10000)}
             />
             <span className="quantity-unit l1">unidades</span>
+          </div>
+          <div className="quantity-info l1">
+            Máximo disponible: {product.stock.toLocaleString()} unidades
           </div>
         </div>
 
