@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Product } from '../types/Product'
+import { useCart } from '../contexts/CartContext'
+import { useUI } from '../contexts/UIContext'
 import './ProductCard.css'
 
 interface ProductCardProps {
@@ -7,6 +9,8 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart } = useCart()
+  const { showNotification } = useUI()
   // Handle product status display
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -120,11 +124,39 @@ const ProductCard = ({ product }: ProductCardProps) => {
             className="btn btn-secondary l1"
             onClick={(e) => {
               e.preventDefault()
-              alert('Función de cotización por implementar')
+              showNotification({
+                type: 'info',
+                title: 'Función en desarrollo',
+                message: 'La función de cotización estará disponible próximamente'
+              })
             }}
           >
             <span className="material-icons">calculate</span>
             Cotizar
+          </button>
+          <button 
+            className="btn btn-primary l1"
+            onClick={(e) => {
+              e.preventDefault()
+              if (product.status === 'active' && product.stock > 0) {
+                addToCart(product, 1)
+                showNotification({
+                  type: 'success',
+                  title: 'Producto agregado',
+                  message: `${product.name} ha sido agregado al carrito`
+                })
+              } else {
+                showNotification({
+                  type: 'error',
+                  title: 'Producto no disponible',
+                  message: 'Este producto no está disponible en este momento'
+                })
+              }
+            }}
+            disabled={product.status !== 'active' || product.stock === 0}
+          >
+            <span className="material-icons">add_shopping_cart</span>
+            Agregar
           </button>
         </div>
       </div>

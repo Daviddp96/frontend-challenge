@@ -53,22 +53,22 @@ Encuentra y corrige estos 8 bugs críticos:
 
 Implementa estas 4 funcionalidades clave:
 
-1. **Carrito de Compras:**
+1. **Carrito de Compras:** - Listo
    - Agregar productos al carrito
    - Mostrar contador de items en el header
    - Persistir carrito en localStorage
 
-2. **Filtros Avanzados:**
+2. **Filtros Avanzados:** - Listo
    - Filtro por proveedor
    - Filtro por rango de precios
    - Limpiar todos los filtros
 
-3. **Simulador de Cotización:**
+3. **Simulador de Cotización:** - Listo
    - Formulario con datos de empresa
    - Cálculo de precio final con descuentos
    - Generar resumen en formato exportable
 
-4. **Mejoras de UX:**
+4. **Mejoras de UX:** - Listo
    - Loading states en la aplicación
    - Animaciones suaves en transiciones
    - Mensajes de error user-friendly

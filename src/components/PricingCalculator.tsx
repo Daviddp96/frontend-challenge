@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Product } from '../types/Product'
+import { useCart } from '../contexts/CartContext'
+import { useUI } from '../contexts/UIContext'
 import './PricingCalculator.css'
 
 interface PricingCalculatorProps {
@@ -7,6 +9,8 @@ interface PricingCalculatorProps {
 }
 
 const PricingCalculator = ({ product }: PricingCalculatorProps) => {
+  const { addToCart } = useCart()
+  const { showNotification } = useUI()
   const [quantity, setQuantity] = useState<number>(1)
   const [selectedBreak, setSelectedBreak] = useState<number>(0)
 
@@ -154,8 +158,11 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
           <button 
             className="btn btn-secondary cta1"
             onClick={() => {
-              // Handle quote request
-              alert(`Cotización solicitada para ${quantity} unidades de ${product.name}`)
+              showNotification({
+                type: 'info',
+                title: 'Cotización solicitada',
+                message: `Hemos recibido su solicitud de cotización para ${quantity} unidades de ${product.name}. Nos contactaremos pronto.`
+              })
             }}
           >
             <span className="material-icons">email</span>
@@ -165,9 +172,22 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
           <button 
             className="btn btn-primary cta1"
             onClick={() => {
-              // Add to cart functionality
-              alert('Función de agregar al carrito por implementar')
+              if (product.status === 'active' && product.stock >= quantity) {
+                addToCart(product, quantity)
+                showNotification({
+                  type: 'success',
+                  title: 'Productos agregados',
+                  message: `${quantity} unidades de ${product.name} han sido agregadas al carrito`
+                })
+              } else {
+                showNotification({
+                  type: 'error',
+                  title: 'Stock insuficiente',
+                  message: `Solo tenemos ${product.stock} unidades disponibles de este producto`
+                })
+              }
             }}
+            disabled={product.status !== 'active' || product.stock < quantity}
           >
             <span className="material-icons">shopping_cart</span>
             Agregar al carrito
