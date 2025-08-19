@@ -306,7 +306,6 @@
   }
 }
 
-/* Screen Reader Only class */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -319,7 +318,6 @@
   border: 0;
 }
 
-/* Focus styles for better accessibility */
 .product-link:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
@@ -331,7 +329,6 @@
   outline-offset: 2px;
 }
 
-/* High contrast support */
 @media (prefers-contrast: high) {
   .product-card {
     border: 2px solid #000;
@@ -346,7 +343,6 @@
   }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   .product-card {
     transition: none;
